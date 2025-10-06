@@ -1,38 +1,27 @@
 import 'package:flutter/material.dart';
 import 'screen/feed_screen.dart';
+import 'screen/search_screen.dart';
+import 'screen/profile_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const SocialApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class SocialApp extends StatefulWidget {
+  const SocialApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'SocialApp',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark(),
-      home: const HomeScreen(),
-    );
-  }
+  State<SocialApp> createState() => _SocialAppState();
 }
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
+class _SocialAppState extends State<SocialApp> {
   int _selectedIndex = 0;
 
+  // daftar halaman yang ditampilkan
   final List<Widget> _pages = const [
     FeedScreen(),
-    Center(child: Text('Search Page')),
-    Center(child: Text('Profile Page')),
+    SearchScreen(),
+    ProfileScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -43,29 +32,50 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'SocialApp',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.message_outlined),
-            onPressed: () {},
-          ),
-        ],
-        elevation: 0.5,
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Social App',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.pinkAccent),
+        useMaterial3: true,
       ),
-      body: _pages[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-        ],
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            'SocialApp',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          centerTitle: false,
+          elevation: 2,
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.message_outlined),
+            ),
+          ],
+        ),
+        body: _pages[_selectedIndex],
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped,
+          selectedItemColor: Colors.pinkAccent,
+          unselectedItemColor: Colors.grey,
+          showUnselectedLabels: false,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home_outlined),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.search),
+              label: 'Search',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person_outline),
+              label: 'Profile',
+            ),
+          ],
+        ),
       ),
     );
   }
